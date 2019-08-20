@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.lug.ustc.edu.cn/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="token,authentication,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1">
+
+
+
+
+
+
+<meta name="description" content="I have created my first project width node, express and mongoose in those days, There is an important part for project which is authentication. So here is my summary in the following. Quick StartInsta">
+<meta name="keywords" content="token,authentication">
+<meta property="og:type" content="article">
+<meta property="og:title" content="token based authentication - JSON Web Tokens">
+<meta property="og:url" content="https://github.com/lydiali9/2018/06/19/token-based-authentication/index.html">
+<meta property="og:site_name" content="蜗小懒">
+<meta property="og:description" content="I have created my first project width node, express and mongoose in those days, There is an important part for project which is authentication. So here is my summary in the following. Quick StartInsta">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-07-29T14:31:04.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="token based authentication - JSON Web Tokens">
+<meta name="twitter:description" content="I have created my first project width node, express and mongoose in those days, There is an important part for project which is authentication. So here is my summary in the following. Quick StartInsta">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://github.com/lydiali9/2018/06/19/token-based-authentication/">
+
+
+
+
+
+  <title>token based authentication - JSON Web Tokens | 蜗小懒</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">蜗小懒</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Li Y Lynn</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lydiali9/2018/06/19/token-based-authentication/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lynn Li">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="蜗小懒">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">token based authentication - JSON Web Tokens</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-19T15:43:56+08:00">
+                2018-06-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/authentication/" itemprop="url" rel="index">
+                    <span itemprop="name">authentication</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/06/19/token-based-authentication/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/06/19/token-based-authentication/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>I have created my first project width node, express and mongoose in those days, There is an important part for project which is authentication. So here is my summary in the following.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install jsonwebtoken --save</span><br><span class="line">npm install bcryptjs --save</span><br></pre></td></tr></table></figure>
+<ul>
+<li>express is the popular Node framework</li>
+<li>mongoose is how we interact with our MongoDB database</li>
+<li>morgan will log requests to the console so we can see what is happening</li>
+<li>body-parser will let us get parameters from our POST requests</li>
+<li>jsonwebtoken is how we create and verify our JSON Web Tokens</li>
+</ul>
+<h3 id="Config-File-config-js"><a href="#Config-File-config-js" class="headerlink" title="Config File(config.js)"></a>Config File(config.js)</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">module.exports = &#123;</span><br><span class="line">    <span class="string">'secret'</span>: <span class="string">'ilovescotchyscotch'</span>,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="App-js"><a href="#App-js" class="headerlink" title="App.js"></a>App.js</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line">const express = require(<span class="string">"express"</span>);</span><br><span class="line">const config = require(<span class="string">"config-lite"</span>);</span><br><span class="line">const cookieParser = require(<span class="string">"cookie-parser"</span>);</span><br><span class="line">const session = require(<span class="string">"express-session"</span>);</span><br><span class="line">const connectMongo = require(<span class="string">"connect-mongo"</span>);</span><br><span class="line">const winston = require(<span class="string">"winston"</span>);</span><br><span class="line">const expressWinston = require(<span class="string">"express-winston"</span>);</span><br><span class="line">const <span class="built_in">history</span> = require(<span class="string">"connect-history-api-fallback"</span>);</span><br><span class="line">const chalk = require(<span class="string">"chalk"</span>);</span><br><span class="line">const bodyParser = require(<span class="string">'body-parser'</span>);</span><br><span class="line">const jwt = require(<span class="string">'jsonwebtoken'</span>);</span><br><span class="line"></span><br><span class="line">const constant = require(<span class="string">'./utils/constant'</span>);</span><br><span class="line">const db = require(<span class="string">"./mongodb/db.js"</span>);</span><br><span class="line">const router = require(<span class="string">"./routes/index.js"</span>);</span><br><span class="line"></span><br><span class="line">const app = express();</span><br><span class="line"></span><br><span class="line">app.all(<span class="string">'*'</span>, (req, res, next) =&gt; &#123;</span><br><span class="line">    res.header(<span class="string">"Access-Control-Allow-Origin"</span>, <span class="string">"*"</span>);</span><br><span class="line">    res.header(<span class="string">"Access-Control-Allow-Headers"</span>, <span class="string">"Content-Type, Authorization, X-Requested-With, x-access-token, UserId"</span>);</span><br><span class="line">    res.header(<span class="string">"Access-Control-Allow-Methods"</span>, <span class="string">"PUT,POST,GET,DELETE,OPTIONS"</span>);</span><br><span class="line">    res.header(<span class="string">"Access-Control-Allow-Credentials"</span>, <span class="literal">true</span>); //可以带cookies</span><br><span class="line">    res.header(<span class="string">"Content-Type"</span>, <span class="string">"application/json;charset=utf-8"</span>);</span><br><span class="line">    res.header(<span class="string">"X-Powered-By"</span>, <span class="string">'3.2.1'</span>);</span><br><span class="line">    <span class="keyword">if</span> (req.method == <span class="string">'OPTIONS'</span>) &#123;</span><br><span class="line">        res.send(200);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        next();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">app.set(<span class="string">'superSecret'</span>, constant.TOKEN_SECRET);</span><br><span class="line"></span><br><span class="line">app.use(bodyParser.json(&#123;<span class="built_in">limit</span>: <span class="string">'50mb'</span>&#125;));</span><br><span class="line">app.use(bodyParser.urlencoded(&#123;<span class="built_in">limit</span>: <span class="string">'50mb'</span>, extended: <span class="literal">true</span>&#125;));</span><br><span class="line"></span><br><span class="line">// app.use(Statistic.apiRecord)</span><br><span class="line">const MongoStore = connectMongo(session);</span><br><span class="line">app.use(cookieParser());</span><br><span class="line">app.use(session(&#123;</span><br><span class="line">    name: config.session.name,</span><br><span class="line">    secret: config.session.secret,</span><br><span class="line">    resave: <span class="literal">false</span>,</span><br><span class="line">    saveUninitialized: <span class="literal">true</span>,</span><br><span class="line">    cookie: config.session.cookie,</span><br><span class="line">    store: new MongoStore(&#123;</span><br><span class="line">        url: config.url</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;))</span><br><span class="line"></span><br><span class="line">/*app.use(expressWinston.logger(&#123;</span><br><span class="line">    transports: [</span><br><span class="line">        new (winston.transports.Console)(&#123;</span><br><span class="line">          json: <span class="literal">true</span>,</span><br><span class="line">          colorize: <span class="literal">true</span></span><br><span class="line">        &#125;),</span><br><span class="line">        new winston.transports.File(&#123;</span><br><span class="line">          filename: <span class="string">'logs/success.log'</span></span><br><span class="line">        &#125;)</span><br><span class="line">    ]</span><br><span class="line">&#125;));*/</span><br><span class="line"></span><br><span class="line">//router(app);</span><br><span class="line">app.use(router);</span><br><span class="line"></span><br><span class="line">/*app.use(expressWinston.errorLogger(&#123;</span><br><span class="line">    transports: [</span><br><span class="line">        new winston.transports.Console(&#123;</span><br><span class="line">          json: <span class="literal">true</span>,</span><br><span class="line">          colorize: <span class="literal">true</span></span><br><span class="line">        &#125;),</span><br><span class="line">        new winston.transports.File(&#123;</span><br><span class="line">          filename: <span class="string">'logs/error.log'</span></span><br><span class="line">        &#125;)</span><br><span class="line">    ]</span><br><span class="line">&#125;));*/</span><br><span class="line"></span><br><span class="line">app.use(<span class="built_in">history</span>());</span><br><span class="line">app.listen(config.port, () =&gt; &#123;</span><br><span class="line">    console.log(</span><br><span class="line">        chalk.green(`成功监听端口：<span class="variable">$&#123;config.port&#125;</span>`)</span><br><span class="line">    )</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="Mongoose-config-default-js"><a href="#Mongoose-config-default-js" class="headerlink" title="Mongoose(config/default.js)"></a>Mongoose(config/default.js)</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">module.exports = &#123;</span><br><span class="line">    port: 8081,</span><br><span class="line">    url: <span class="string">'mongodb://localhost:27017/pie_media'</span>,</span><br><span class="line">    session: &#123;</span><br><span class="line">        name: <span class="string">'SID'</span>,</span><br><span class="line">        secret: <span class="string">'SID'</span>,</span><br><span class="line">        cookie: &#123;</span><br><span class="line">            httpOnly: <span class="literal">true</span>,</span><br><span class="line">            secure:   <span class="literal">true</span>,</span><br><span class="line">            maxAge:   365 * 24 * 60 * 60 * 1000,</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Connect-mongoose-db-js"><a href="#Connect-mongoose-db-js" class="headerlink" title="Connect mongoose(db.js)"></a>Connect mongoose(db.js)</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">const mongoose = require(<span class="string">"mongoose"</span>);</span><br><span class="line">const config = require(<span class="string">"config-lite"</span>);</span><br><span class="line">const chalk = require(<span class="string">"chalk"</span>);</span><br><span class="line"></span><br><span class="line">mongoose.connect(config.url, &#123;useMongoClient:<span class="literal">true</span>&#125;);</span><br><span class="line">mongoose.Promise = global.Promise;</span><br><span class="line"></span><br><span class="line">const db = mongoose.connection;</span><br><span class="line"></span><br><span class="line">db.once(<span class="string">'open'</span> ,() =&gt; &#123;</span><br><span class="line">    console.log(</span><br><span class="line">    chalk.green(<span class="string">'连接数据库成功'</span>)</span><br><span class="line">  );</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">db.on(<span class="string">'error'</span>, <span class="keyword">function</span>(error) &#123;</span><br><span class="line">    console.error(</span><br><span class="line">      chalk.red(<span class="string">'Error in MongoDb connection: '</span> + error)</span><br><span class="line">    );</span><br><span class="line">    mongoose.disconnect();</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">db.on(<span class="string">'close'</span>, <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">    console.log(</span><br><span class="line">      chalk.red(<span class="string">'数据库断开，重新连接数据库'</span>)</span><br><span class="line">    );</span><br><span class="line">    mongoose.connect(config.url, &#123;server:&#123;auto_reconnect:<span class="literal">true</span>&#125;&#125;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">// <span class="built_in">export</span> default db;</span><br><span class="line">module.exports = db;</span><br></pre></td></tr></table></figure>
+<h3 id="Creating-a-Sample-module"><a href="#Creating-a-Sample-module" class="headerlink" title="Creating a Sample module"></a>Creating a Sample module</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">let</span> mongoose = require(<span class="string">'mongoose'</span>);</span><br><span class="line"></span><br><span class="line">const Schema = mongoose.Schema;</span><br><span class="line"></span><br><span class="line">const userSchema = new Schema(&#123;</span><br><span class="line">    name: &#123;<span class="built_in">type</span>: String, default: <span class="string">''</span>&#125;,</span><br><span class="line">    id: Number,</span><br><span class="line">    password: &#123;<span class="built_in">type</span>: String, default: <span class="string">''</span>&#125;,</span><br><span class="line">    <span class="built_in">type</span>: &#123;<span class="built_in">type</span>: Number, default: 0&#125;,</span><br><span class="line">    group: [],</span><br><span class="line">    server_limit: [],</span><br><span class="line">    desc: &#123;<span class="built_in">type</span>: String, default: <span class="string">''</span>&#125;,</span><br><span class="line">    nickname: &#123;<span class="built_in">type</span>: String, default: <span class="string">''</span>&#125;,</span><br><span class="line">    age: &#123;<span class="built_in">type</span>: Number, min: 13, max: 80, default: -1&#125;, // -1 unknown</span><br><span class="line">    sex: &#123;<span class="built_in">type</span>: Number, default: 0&#125;,</span><br><span class="line">    email: &#123;<span class="built_in">type</span>: String, default: <span class="string">''</span>&#125;,</span><br><span class="line">    id_crad: &#123;<span class="built_in">type</span>: String, default: <span class="string">''</span>&#125;,</span><br><span class="line">    home_address: &#123;<span class="built_in">type</span>: String, default: <span class="string">''</span>&#125;,</span><br><span class="line">    company_address: &#123;<span class="built_in">type</span>: String, default: <span class="string">''</span>&#125;,</span><br><span class="line">    create_time: Date,</span><br><span class="line">    update_time: &#123; <span class="built_in">type</span>: Date, default: Date.now &#125;,</span><br><span class="line">    headphoto: &#123;<span class="built_in">type</span>: String, default: <span class="string">''</span>&#125;,</span><br><span class="line">    number: &#123;<span class="built_in">type</span>: String, default: <span class="string">''</span>&#125;,</span><br><span class="line">    wechat: &#123;<span class="built_in">type</span>: String, default: <span class="string">''</span>&#125;,</span><br><span class="line">    weibo: &#123;<span class="built_in">type</span>: String, default: <span class="string">''</span>&#125;,</span><br><span class="line">    QQ: &#123;<span class="built_in">type</span>: String, default: <span class="string">''</span>&#125;,</span><br><span class="line">    is_deleted: &#123;<span class="built_in">type</span>: Number, default: 0&#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">userSchema.index(&#123;id: 1&#125;);</span><br><span class="line">const User = mongoose.model(<span class="string">'User'</span>, userSchema);</span><br><span class="line"></span><br><span class="line">module.exports = User</span><br></pre></td></tr></table></figure>
+<h3 id="Create-verifyToken-js"><a href="#Create-verifyToken-js" class="headerlink" title="Create verifyToken.js"></a>Create verifyToken.js</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">var jwt = require(<span class="string">'jsonwebtoken'</span>);</span><br><span class="line">const config = require(<span class="string">"./constant"</span>);</span><br><span class="line"><span class="built_in">let</span> <span class="variable">$logger</span> = require(<span class="string">'./logger'</span>);</span><br><span class="line"><span class="built_in">let</span> <span class="variable">$code</span> = require(<span class="string">'./code'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> verifyToken(req, res, next) &#123;</span><br><span class="line">    var token = req.body.token || req.query.token || req.headers[<span class="string">'x-access-token'</span>];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!token) &#123;</span><br><span class="line">        <span class="variable">$logger</span>.error(<span class="string">'method: verify_token, msg: No token provided'</span>);</span><br><span class="line">        res.json(&#123;code: <span class="variable">$code</span>.NO_TOKEN, msg: <span class="string">"No token provided"</span>, data: <span class="string">""</span>&#125;);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        jwt.verify(token, config.TOKEN_SECRET, <span class="keyword">function</span> (err, decoded) &#123;</span><br><span class="line">            <span class="keyword">if</span> (err) &#123;</span><br><span class="line">                <span class="variable">$logger</span>.error(<span class="string">'method: verify_token, msg: No token provided'</span>);</span><br><span class="line">                res.json(&#123;code: <span class="variable">$code</span>.NO_AUTHENTICATE, msg: <span class="string">"Failed to authenticate token"</span>, data: <span class="string">""</span>&#125;);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            // <span class="keyword">if</span> everything good, save to request <span class="keyword">for</span> use <span class="keyword">in</span> other routes</span><br><span class="line">            req.decoded = decoded;</span><br><span class="line">            next();</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">module.exports = verifyToken;</span><br></pre></td></tr></table></figure>
+<h3 id="Add-router"><a href="#Add-router" class="headerlink" title="Add router"></a>Add router</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">let</span> express = require(<span class="string">'express'</span>);</span><br><span class="line"><span class="built_in">let</span> <span class="variable">$api</span> = require(<span class="string">'../api'</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">let</span> <span class="variable">$user</span> = require(<span class="string">'../controller/user/userManager'</span>);</span><br><span class="line"><span class="built_in">let</span> verifyToken = require(<span class="string">'../utils/verifyToken'</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">let</span> router = express.Router();</span><br><span class="line"></span><br><span class="line">// user</span><br><span class="line">router.post(<span class="variable">$api</span>.login, <span class="variable">$user</span>.login);</span><br><span class="line">router.get(<span class="variable">$api</span>.get_user, verifyToken, <span class="variable">$user</span>.getUser);</span><br><span class="line">router.post(<span class="variable">$api</span>.update_user, verifyToken, <span class="variable">$user</span>.updateUser);</span><br><span class="line"></span><br><span class="line">module.exports = router;</span><br></pre></td></tr></table></figure>
+<h3 id="Create-controller-User-js"><a href="#Create-controller-User-js" class="headerlink" title="Create controller(User.js)"></a>Create controller(User.js)</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * crawler</span><br><span class="line"> * @<span class="built_in">type</span> &#123;es&#125;</span><br><span class="line"> * Created by yuhua.li</span><br><span class="line"> */</span><br><span class="line">var request_promise = require(<span class="string">'request-promise'</span>);</span><br><span class="line"><span class="built_in">let</span> <span class="variable">$url</span> = require(<span class="string">'../../utils/urls'</span>);</span><br><span class="line"><span class="built_in">let</span> <span class="variable">$utils</span> = require(<span class="string">'../../utils/utils'</span>);</span><br><span class="line"><span class="built_in">let</span> <span class="variable">$logger</span> = require(<span class="string">'../../utils/logger'</span>);</span><br><span class="line"><span class="built_in">let</span> <span class="variable">$code</span> = require(<span class="string">'../../utils/code'</span>);</span><br><span class="line">var UserModel = require(<span class="string">'../../models/user/user'</span>);</span><br><span class="line">const CONFIG = require(<span class="string">"../../utils/constant"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> createUser(number) &#123;</span><br><span class="line">    <span class="built_in">return</span> new Promise(<span class="keyword">function</span> (resolve, reject) &#123;</span><br><span class="line">        UserModel.create(&#123;<span class="string">"number"</span>: number, nickname: <span class="string">'派娱乐User'</span>&#125;, <span class="keyword">function</span> (err, user) &#123;</span><br><span class="line">            <span class="keyword">if</span> (err) &#123;</span><br><span class="line">                <span class="variable">$logger</span>.error(<span class="string">'method: get_code, msg: 获取验证码成功后，保存用户信息失败'</span>);</span><br><span class="line">                reject(err);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                // generate a token</span><br><span class="line">                <span class="built_in">let</span> token = <span class="variable">$utils</span>.generateToken(user._id);</span><br><span class="line">                console.log(token);</span><br><span class="line">                <span class="built_in">let</span> doc = user._doc ? user._doc : &#123;&#125;;</span><br><span class="line">                resolve(Object.assign(doc, &#123;token: token&#125;));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">module.exports = &#123;</span><br><span class="line"></span><br><span class="line">    login(req, res) &#123;</span><br><span class="line">        <span class="built_in">let</span> body = req.body;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(body.number &amp;&amp; body.code) &#123;</span><br><span class="line">            <span class="built_in">let</span> url = <span class="variable">$url</span>.register;</span><br><span class="line">            <span class="built_in">let</span> timetamp = new Date().getTime();</span><br><span class="line"></span><br><span class="line">            <span class="built_in">let</span> options = &#123;</span><br><span class="line">                <span class="string">"uri"</span>: url,</span><br><span class="line">                <span class="string">"qs"</span>: &#123;</span><br><span class="line">                    <span class="string">"tk"</span>: <span class="variable">$utils</span>.createToken(body.number, timetamp),</span><br><span class="line">                    <span class="string">"product_id"</span>: CONFIG.PRODUCT_SDK_ID,</span><br><span class="line">                    <span class="string">"phone_num"</span>: body.number,</span><br><span class="line">                    <span class="string">"verification_code"</span>: body.code,</span><br><span class="line">                    <span class="string">"timestamp"</span>: timetamp,</span><br><span class="line">                    <span class="string">"ver"</span>: CONFIG.CMS_VERSION</span><br><span class="line">                &#125;,</span><br><span class="line">                <span class="string">"headers"</span>: &#123;</span><br><span class="line">                    <span class="string">'User-Agent'</span>: <span class="string">'Request-Promise'</span>,</span><br><span class="line">                    <span class="string">'content-type'</span>: <span class="string">'application/json;charset=UTF-8'</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;;</span><br><span class="line"></span><br><span class="line">            request_promise(options)</span><br><span class="line">                .<span class="keyword">then</span>(data =&gt; &#123;</span><br><span class="line">                    <span class="built_in">let</span> result = JSON.parse(data);</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">if</span>(result.code == 200) &#123;</span><br><span class="line">                        UserModel.findOne(&#123;number: body.number&#125;, <span class="keyword">function</span>(err, user) &#123;</span><br><span class="line">                            <span class="keyword">if</span>(!user) &#123;</span><br><span class="line">                                createUser(body.number)</span><br><span class="line">                                    .<span class="keyword">then</span>(doc =&gt; &#123;</span><br><span class="line">                                        res.json(&#123;code: <span class="variable">$code</span>.SUCCESS, msg: <span class="string">'success'</span>, content: doc&#125;);</span><br><span class="line">                                    &#125;)</span><br><span class="line">                                    .catch(<span class="keyword">function</span> (err) &#123;</span><br><span class="line">                                        <span class="variable">$logger</span>.error(<span class="string">'method: login create_user, msg: '</span> + err.message);</span><br><span class="line">                                        res.json(&#123;code: <span class="variable">$code</span>.FALSE, msg: <span class="string">'failed'</span>, err: err.message&#125;);</span><br><span class="line">                                    &#125;);</span><br><span class="line">                            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                                <span class="built_in">let</span> token = <span class="variable">$utils</span>.generateToken(user._id);</span><br><span class="line">                                <span class="built_in">let</span> doc = user._doc ? user._doc : &#123;&#125;;</span><br><span class="line">                                res.json(&#123;code: <span class="variable">$code</span>.SUCCESS, msg: <span class="string">'success'</span>, content: Object.assign(doc, &#123;token: token&#125;)&#125;);</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;);</span><br><span class="line">                    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                        <span class="variable">$logger</span>.error(<span class="string">'method: login, msg: '</span> + result.message);</span><br><span class="line">                        res.json(&#123;code: <span class="variable">$code</span>.QUERY_MYSQL_FALSE, errmsg: result.message, data: <span class="string">""</span>&#125;);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;)</span><br><span class="line">                .catch(<span class="keyword">function</span> (err) &#123;</span><br><span class="line">                    <span class="variable">$logger</span>.error(<span class="string">'method: login, msg: '</span> + err.message);</span><br><span class="line">                    res.json(&#123;code: <span class="variable">$code</span>.FALSE, msg: <span class="string">'failed'</span>, err: err.message&#125;);</span><br><span class="line">                &#125;);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="variable">$logger</span>.error(<span class="string">'method: login, msg: 请求信息不完整'</span>);</span><br><span class="line">            res.json(&#123;code: <span class="variable">$code</span>.QUERY_MYSQL_FALSE, msg: <span class="string">"请求信息不完整"</span>, data: <span class="string">""</span>&#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Create-generateToken-js"><a href="#Create-generateToken-js" class="headerlink" title="Create generateToken.js"></a>Create generateToken.js</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">generateToken: <span class="keyword">function</span>(userId) &#123;</span><br><span class="line">    <span class="built_in">let</span> token = jwt.sign(&#123; id: userId &#125;, CONFIG.TOKEN_SECRET, &#123;</span><br><span class="line">        expiresIn: 365 * 24 * 60 * 60 * 1000// expires <span class="keyword">in</span> one year</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">return</span> token;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>More info:</p>
+<ul>
+<li><a href="https://scotch.io/tutorials/authenticate-a-node-js-api-with-json-web-tokens" target="_blank" rel="noopener">Authenticate a Node.js API with JSON Web Tokens</a></li>
+<li><a href="https://medium.freecodecamp.org/securing-node-js-restful-apis-with-json-web-tokens-9f811a92bb52" target="_blank" rel="noopener">Securing Node.js RESTful APIs with JSON Web Tokens</a></li>
+<li><a href="https://segmentfault.com/a/1190000012747428" target="_blank" rel="noopener">前后端分离实践</a></li>
+<li><a href="https://segmentfault.com/a/1190000013010835" target="_blank" rel="noopener">Token 认证的来龙去脉</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="https://github.com/lydiali9/Blog/blob/master/lydiali9.github.com/images/wechatpay1.png?raw=true" alt="Lynn Li WeChat Pay">
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="https://github.com/lydiali9/Blog/blob/master/lydiali9.github.com/images/alipay1.png?raw=true" alt="Lynn Li Alipay">
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/token/" rel="tag"># token</a>
+          
+            <a href="/tags/authentication/" rel="tag"># authentication</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/01/JS code optimization/" rel="next" title="JS代码优化">
+                <i class="fa fa-chevron-left"></i> JS代码优化
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/06/20/mongoose/" rel="prev" title="mongoose">
+                mongoose <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="Lynn Li">
+          <p class="site-author-name" itemprop="name">Lynn Li</p>
+           
+              <p class="site-description motion-element" itemprop="description">只怕把自己活成自己理想中的男生</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">68</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/lydiali9" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Quick-Start"><span class="nav-number">1.</span> <span class="nav-text">Quick Start</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Install"><span class="nav-number">1.1.</span> <span class="nav-text">Install</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Config-File-config-js"><span class="nav-number">1.2.</span> <span class="nav-text">Config File(config.js)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#App-js"><span class="nav-number">1.3.</span> <span class="nav-text">App.js</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mongoose-config-default-js"><span class="nav-number">1.4.</span> <span class="nav-text">Mongoose(config/default.js)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Connect-mongoose-db-js"><span class="nav-number">1.5.</span> <span class="nav-text">Connect mongoose(db.js)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Creating-a-Sample-module"><span class="nav-number">1.6.</span> <span class="nav-text">Creating a Sample module</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-verifyToken-js"><span class="nav-number">1.7.</span> <span class="nav-text">Create verifyToken.js</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Add-router"><span class="nav-number">1.8.</span> <span class="nav-text">Add router</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-controller-User-js"><span class="nav-number">1.9.</span> <span class="nav-text">Create controller(User.js)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-generateToken-js"><span class="nav-number">1.10.</span> <span class="nav-text">Create generateToken.js</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2013 - 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lynn Li</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://lynnli.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://github.com/lydiali9/2018/06/19/token-based-authentication/';
+          this.page.identifier = '2018/06/19/token-based-authentication/';
+          this.page.title = 'token based authentication - JSON Web Tokens';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://lynnli.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

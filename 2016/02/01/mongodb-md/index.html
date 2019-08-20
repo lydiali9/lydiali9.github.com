@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.lug.ustc.edu.cn/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="MongoDB,inset,save,update,remove,$set,drop,$push,$inc,$unset,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1">
+
+
+
+
+
+
+<meta name="description" content="MongoDB相关的基本操作在集合中插入文档MongoDB 使用 insert() 或 save() 方法向集合中插入文档 插入单个文档1$ db.COLLECTION_NAME.insert(&amp;#123;&amp;quot;type&amp;quot;: &amp;quot;CD&amp;quot;, &amp;quot;article&amp;quot;: &amp;quot;MongoDB&amp;quot;&amp;#125;) 批量插入文档123$ for">
+<meta name="keywords" content="MongoDB,inset,save,update,remove,$set,drop,$push,$inc,$unset">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MongoDB">
+<meta property="og:url" content="https://github.com/lydiali9/2016/02/01/mongodb-md/index.html">
+<meta property="og:site_name" content="蜗小懒">
+<meta property="og:description" content="MongoDB相关的基本操作在集合中插入文档MongoDB 使用 insert() 或 save() 方法向集合中插入文档 插入单个文档1$ db.COLLECTION_NAME.insert(&amp;#123;&amp;quot;type&amp;quot;: &amp;quot;CD&amp;quot;, &amp;quot;article&amp;quot;: &amp;quot;MongoDB&amp;quot;&amp;#125;) 批量插入文档123$ for">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-07-29T14:31:04.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MongoDB">
+<meta name="twitter:description" content="MongoDB相关的基本操作在集合中插入文档MongoDB 使用 insert() 或 save() 方法向集合中插入文档 插入单个文档1$ db.COLLECTION_NAME.insert(&amp;#123;&amp;quot;type&amp;quot;: &amp;quot;CD&amp;quot;, &amp;quot;article&amp;quot;: &amp;quot;MongoDB&amp;quot;&amp;#125;) 批量插入文档123$ for">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://github.com/lydiali9/2016/02/01/mongodb-md/">
+
+
+
+
+
+  <title>MongoDB | 蜗小懒</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">蜗小懒</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Li Y Lynn</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lydiali9/2016/02/01/mongodb-md/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lynn Li">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="蜗小懒">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">MongoDB</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-02-01T08:51:34+08:00">
+                2016-02-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/MongoDB/" itemprop="url" rel="index">
+                    <span itemprop="name">MongoDB</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2016/02/01/mongodb-md/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/02/01/mongodb-md/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="MongoDB相关的基本操作"><a href="#MongoDB相关的基本操作" class="headerlink" title="MongoDB相关的基本操作"></a>MongoDB相关的基本操作</h2><h3 id="在集合中插入文档"><a href="#在集合中插入文档" class="headerlink" title="在集合中插入文档"></a>在集合中插入文档</h3><p>MongoDB 使用 insert() 或 save() 方法向集合中插入文档</p>
+<h4 id="插入单个文档"><a href="#插入单个文档" class="headerlink" title="插入单个文档"></a>插入单个文档</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ db.COLLECTION_NAME.insert(&#123;&quot;type&quot;: &quot;CD&quot;, &quot;article&quot;: &quot;MongoDB&quot;&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="批量插入文档"><a href="#批量插入文档" class="headerlink" title="批量插入文档"></a>批量插入文档</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ for (var i = 0; i &lt;= 9; i++) &#123;</span><br><span class="line">    db.COLLECTION_NAME.insert(&#123;&quot;type&quot;: &quot;CD&quot;, &quot;article&quot;: &quot;MongoDB&quot;, &quot;order&quot;: i&#125;)</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>插入文档你也可以使用 db.COLLECTION_NAME.save(document) 命令; 如果不指定 _id 字段 save() 方法类似于 insert() 方法。如果指定 _id 字段，则会更新该 _id 的数据</p>
+<h3 id="删除数据"><a href="#删除数据" class="headerlink" title="删除数据"></a>删除数据</h3><h4 id="删除单个文档"><a href="#删除单个文档" class="headerlink" title="删除单个文档"></a>删除单个文档</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ db.COLLECTION_NAME.remove(</span><br><span class="line">   &lt;query&gt;,</span><br><span class="line">   &lt;justOne&gt;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>参数说明：</p>
+<ul>
+<li>query: (可选)删除文档的条件</li>
+<li>justOne: (可选）如果设为 true 或 1，则只删除一个文档</li>
+</ul>
+<h4 id="删除整个集合"><a href="#删除整个集合" class="headerlink" title="删除整个集合"></a>删除整个集合</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ db.COLLECTION_NAME.drop()</span><br></pre></td></tr></table></figure>
+<p>比较： remove集合的本身和索引不会被删除，而drop效率更高，相应的索引也会被删除</p>
+<h3 id="更新文档"><a href="#更新文档" class="headerlink" title="更新文档"></a>更新文档</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ db.COLLECTION_NAME.update(</span><br><span class="line">   &lt;query&gt;,</span><br><span class="line">   &lt;update&gt;,</span><br><span class="line">   &#123;</span><br><span class="line">     upsert: &lt;boolean&gt;,</span><br><span class="line">     multi: &lt;boolean&gt;</span><br><span class="line">   &#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>参数说明：</p>
+<ul>
+<li>query：update的查询条件</li>
+<li>update：跟新的对象，这里可以使用一些操作符，如$set等</li>
+<li>upsert：（可选）如果不存在update的记录，是否插入新的文档,true为插入，默认是false，不插入</li>
+<li>multi：（可选）默认是false,只更新找到的第一条记录，如果这个参数为true,就把按条件查出来多条记录全部更新</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ db.COLLECTION_NAME.update(&#123;&quot;title&quot;: &quot;MongoDB&quot;&#125;,&#123;$set:&#123;&quot;title&quot;: &quot;MongoDB&quot;&#125;&#125;, &#123;upsert： true, multi: true&#125;)</span><br></pre></td></tr></table></figure>
+<p>以上是修改多条相同的文档，不存在就进行插入；当然也可以使用save，但是要指定文档的 _id字段，否则也是插入</p>
+<h4 id="使用修改器进行局部更新"><a href="#使用修改器进行局部更新" class="headerlink" title="使用修改器进行局部更新"></a>使用修改器进行局部更新</h4><h5 id="1-set设置字段值"><a href="#1-set设置字段值" class="headerlink" title="1. $set设置字段值"></a>1. $set设置字段值</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ db.COLLECTION_NAME.update(&#123;&quot;title&quot;: &quot;MongoDB&quot;&#125;， &#123;$set: &#123;&quot;name&quot;: &quot;title&quot;&#125;&#125;)</span><br></pre></td></tr></table></figure>
+<p>将某个字段设定为指定值</p>
+<h5 id="2-unset删除指定字段"><a href="#2-unset删除指定字段" class="headerlink" title="2. $unset删除指定字段"></a>2. $unset删除指定字段</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ db.COLLECTION_NAME.update(&#123;&quot;title&quot;: &quot;MongoDB&quot;&#125;， &#123;$unset: &#123;&quot;name&quot;: 1&#125;&#125;)</span><br></pre></td></tr></table></figure>
+<p>可以删除指定的字段值，从文档中删除name键和name的值</p>
+<h5 id="3-inc增加值"><a href="#3-inc增加值" class="headerlink" title="3. $inc增加值"></a>3. $inc增加值</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ db.COLLECTION_NAME.update(&#123;&quot;title&quot;: &quot;MongoDB&quot;&#125;， &#123;$inc: &#123;&quot;read&quot;: 91&#125;&#125;)</span><br></pre></td></tr></table></figure>
+<p>可以为指定的键执行跟新操作,如果字段存在，就将read字段（数值类型）加91，否则就创建该字段</p>
+<h5 id="4-push在指定字段中添加某个值"><a href="#4-push在指定字段中添加某个值" class="headerlink" title="4. $push在指定字段中添加某个值"></a>4. $push在指定字段中添加某个值</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ db.COLLECTION_NAME.update(&#123;&quot;title&quot;: &quot;MongoDB&quot;&#125;， &#123;$push: &#123;&quot;author&quot;: &quot;lydiali, lydiali91&quot;&#125;&#125;)</span><br></pre></td></tr></table></figure>
+<p>可以在指定字段中添加某个值。如果该字段是个数组，那么该值将被添加到数组中；如果该字段不存在，那么该字段的值将被设置为数组；如果该字段存在，但不是数组，那么将中断操作</p>
+<h5 id="5-指定数组中的多个值"><a href="#5-指定数组中的多个值" class="headerlink" title="5. 指定数组中的多个值"></a>5. 指定数组中的多个值</h5><p>如果给指定的数组中添加几个不同的值，可以使用可选的操作符$each</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ db.COLLECTION_NAME.update(&#123;&quot;title&quot;: &quot;MongoDB&quot;&#125;， &#123;$push: &#123;&quot;author&quot;: $each: &#123;[&quot;lydiali91&quot;, &quot;lydiali&quot;]&#125;&#125;&#125;)</span><br></pre></td></tr></table></figure>
+<p>在使用$$each时, 当然也可以使用$slice, 这样可以限制$push操作符中数组内元素的数量. $slice接受负数或零，负数表示将保证数组中的最后n个元素会被保留，而零表示清空数组</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ db.COLLECTION_NAME.update(&#123;&quot;title&quot;: &quot;MongoDB&quot;&#125;， &#123;$push: &#123;&quot;author&quot;: $each: &#123;[&quot;lydiali91&quot;, &quot;lydiali&quot;]， $slice: -2&#125;&#125;&#125;)</span><br></pre></td></tr></table></figure>
+<p>以上操作，操作符$slice保证不仅两个新值会被添加到数组中，还保证将把数组的大小限定为指定值</p>
+<ul>
+<li>注意：操作符$$slice必须是$push操作中的第一个修改操作符</li>
+</ul>
+<h5 id="6-addToSet向数组中添加数据"><a href="#6-addToSet向数组中添加数据" class="headerlink" title="6. $addToSet向数组中添加数据"></a>6. $addToSet向数组中添加数据</h5><p>它是另外一个可以向数组中添加数组的操作符, 与$$push相比, 不同之处就是, 它只有在数据不存在的时候, 该操作符才能将数据添加到数组中, $addToSet默认就接受一个值; 不过, 也可以结合$each操作符指定额外的参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ db.COLLECTION_NAME.update(&#123;&quot;title&quot;: &quot;MongoDB&quot;&#125;， &#123;$addToSet: &#123;&quot;author&quot;: $each: &#123;[&quot;lydiali91&quot;, &quot;lydiali&quot;]&#125;&#125;&#125;)</span><br></pre></td></tr></table></figure>
+<h5 id="7-从数组中删除元素"><a href="#7-从数组中删除元素" class="headerlink" title="7. 从数组中删除元素"></a>7. 从数组中删除元素</h5><p>$pop从数组中删除单个元素; 该元素只允许删除数组中的第一个或最后一个，使用正数和零就会删除数组中最后一个元素， 使用负数就会删除数组中的第一个元素</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ db.COLLECTION_NAME.update(&#123;&quot;title&quot;: &quot;MongoDB&quot;&#125;， &#123;$pop: &#123;&quot;author&quot;: 1&#125;&#125;&#125;)</span><br></pre></td></tr></table></figure>
+<h5 id="8-删除所有指定的值"><a href="#8-删除所有指定的值" class="headerlink" title="8. 删除所有指定的值"></a>8. 删除所有指定的值</h5><p>$$pull操作符可以从数组中删除所有值，如果数组中有多个元素的值相同，使用$pull非常有用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ db.COLLECTION_NAME.update(&#123;&quot;title&quot;: &quot;MongoDB&quot;&#125;， &#123;$pull: &#123;&quot;author&quot;: &quot;lydiali91, lydiali&quot;&#125;&#125;&#125;)</span><br></pre></td></tr></table></figure>
+<h5 id="9-删除数组中的多个元素"><a href="#9-删除数组中的多个元素" class="headerlink" title="9. 删除数组中的多个元素"></a>9. 删除数组中的多个元素</h5><p>$pullAll还可以从数组中删除多个含有不同值的元素</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ db.COLLECTION_NAME.update(&#123;&quot;title&quot;: &quot;MongoDB&quot;&#125;， &#123;$pullAll: &#123;&quot;author&quot;: [&quot;lydiali91, lydiali&quot;]&#125;&#125;&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="相关链接"><a href="#相关链接" class="headerlink" title="相关链接"></a>相关链接</h3><ul>
+<li><a href="https://docs.mongodb.org/manual/" target="_blank" rel="noopener">MongoDB 英文文档</a></li>
+<li><a href="http://www.runoob.com/mongodb/mongodb-tutorial.html" target="_blank" rel="noopener">MongoDB 教程</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="https://github.com/lydiali9/Blog/blob/master/lydiali9.github.com/images/wechatpay1.png?raw=true" alt="Lynn Li WeChat Pay">
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="https://github.com/lydiali9/Blog/blob/master/lydiali9.github.com/images/alipay1.png?raw=true" alt="Lynn Li Alipay">
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/MongoDB/" rel="tag"># MongoDB</a>
+          
+            <a href="/tags/inset/" rel="tag"># inset</a>
+          
+            <a href="/tags/save/" rel="tag"># save</a>
+          
+            <a href="/tags/update/" rel="tag"># update</a>
+          
+            <a href="/tags/remove/" rel="tag"># remove</a>
+          
+            <a href="/tags/set/" rel="tag"># $set</a>
+          
+            <a href="/tags/drop/" rel="tag"># drop</a>
+          
+            <a href="/tags/push/" rel="tag"># $push</a>
+          
+            <a href="/tags/inc/" rel="tag"># $inc</a>
+          
+            <a href="/tags/unset/" rel="tag"># $unset</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/01/01/verify-date/" rel="next" title="验证时间">
+                <i class="fa fa-chevron-left"></i> 验证时间
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/03/10/how-to-use-git/" rel="prev" title="Git">
+                Git <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="Lynn Li">
+          <p class="site-author-name" itemprop="name">Lynn Li</p>
+           
+              <p class="site-description motion-element" itemprop="description">只怕把自己活成自己理想中的男生</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">68</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/lydiali9" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#MongoDB相关的基本操作"><span class="nav-number">1.</span> <span class="nav-text">MongoDB相关的基本操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#在集合中插入文档"><span class="nav-number">1.1.</span> <span class="nav-text">在集合中插入文档</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#插入单个文档"><span class="nav-number">1.1.1.</span> <span class="nav-text">插入单个文档</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#批量插入文档"><span class="nav-number">1.1.2.</span> <span class="nav-text">批量插入文档</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除数据"><span class="nav-number">1.2.</span> <span class="nav-text">删除数据</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#删除单个文档"><span class="nav-number">1.2.1.</span> <span class="nav-text">删除单个文档</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#删除整个集合"><span class="nav-number">1.2.2.</span> <span class="nav-text">删除整个集合</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#更新文档"><span class="nav-number">1.3.</span> <span class="nav-text">更新文档</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用修改器进行局部更新"><span class="nav-number">1.3.1.</span> <span class="nav-text">使用修改器进行局部更新</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-set设置字段值"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">1. $set设置字段值</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-unset删除指定字段"><span class="nav-number">1.3.1.2.</span> <span class="nav-text">2. $unset删除指定字段</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-inc增加值"><span class="nav-number">1.3.1.3.</span> <span class="nav-text">3. $inc增加值</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-push在指定字段中添加某个值"><span class="nav-number">1.3.1.4.</span> <span class="nav-text">4. $push在指定字段中添加某个值</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-指定数组中的多个值"><span class="nav-number">1.3.1.5.</span> <span class="nav-text">5. 指定数组中的多个值</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6-addToSet向数组中添加数据"><span class="nav-number">1.3.1.6.</span> <span class="nav-text">6. $addToSet向数组中添加数据</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#7-从数组中删除元素"><span class="nav-number">1.3.1.7.</span> <span class="nav-text">7. 从数组中删除元素</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#8-删除所有指定的值"><span class="nav-number">1.3.1.8.</span> <span class="nav-text">8. 删除所有指定的值</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#9-删除数组中的多个元素"><span class="nav-number">1.3.1.9.</span> <span class="nav-text">9. 删除数组中的多个元素</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#相关链接"><span class="nav-number">1.4.</span> <span class="nav-text">相关链接</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2013 - 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lynn Li</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://lynnli.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://github.com/lydiali9/2016/02/01/mongodb-md/';
+          this.page.identifier = '2016/02/01/mongodb-md/';
+          this.page.title = 'MongoDB';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://lynnli.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

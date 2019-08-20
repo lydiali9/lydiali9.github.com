@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.lug.ustc.edu.cn/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="chmod,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1">
+
+
+
+
+
+
+<meta name="description" content="In Linux, everything is a file. Directories are files. All of the files on a system have permissions that allow or prevent others from viewing, modifying or executing. The super user “root” has the ab">
+<meta name="keywords" content="chmod">
+<meta property="og:type" content="article">
+<meta property="og:title" content="file permission for ubuntu">
+<meta property="og:url" content="https://github.com/lydiali9/2018/08/23/file-permission-for-ubuntu/index.html">
+<meta property="og:site_name" content="蜗小懒">
+<meta property="og:description" content="In Linux, everything is a file. Directories are files. All of the files on a system have permissions that allow or prevent others from viewing, modifying or executing. The super user “root” has the ab">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-07-29T14:31:04.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="file permission for ubuntu">
+<meta name="twitter:description" content="In Linux, everything is a file. Directories are files. All of the files on a system have permissions that allow or prevent others from viewing, modifying or executing. The super user “root” has the ab">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://github.com/lydiali9/2018/08/23/file-permission-for-ubuntu/">
+
+
+
+
+
+  <title>file permission for ubuntu | 蜗小懒</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">蜗小懒</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Li Y Lynn</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lydiali9/2018/08/23/file-permission-for-ubuntu/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lynn Li">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="蜗小懒">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">file permission for ubuntu</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-23T11:02:10+08:00">
+                2018-08-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/chmod/" itemprop="url" rel="index">
+                    <span itemprop="name">chmod</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/08/23/file-permission-for-ubuntu/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/08/23/file-permission-for-ubuntu/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>In Linux, everything is a file. Directories are files. All of the files on a system have permissions that allow or prevent others from viewing, modifying or executing. The super user “root” has the ability to access any file on the system. Each file has access restrictions with permissions, user restrictions with ownwe/group asscciation. Permission are referred to as bits.</p>
+<p>To change or edit files that are owned by root, <code>sudo</code> must be uesd.</p>
+<h3 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h3><p>If the owner read &amp; execute bit are on, then the permission are:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-r-x------</span><br></pre></td></tr></table></figure></p>
+<h4 id="Access-restrictions"><a href="#Access-restrictions" class="headerlink" title="Access restrictions"></a>Access restrictions</h4><p>There are three types of access restrictions:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Permission</th>
+<th style="text-align:center">Action</th>
+<th style="text-align:center">chmod option</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">read</td>
+<td style="text-align:center">view</td>
+<td style="text-align:center">r or 4</td>
+</tr>
+<tr>
+<td style="text-align:center">write</td>
+<td style="text-align:center">edit</td>
+<td style="text-align:center">w or 2</td>
+</tr>
+<tr>
+<td style="text-align:center">execute</td>
+<td style="text-align:center">execute</td>
+<td style="text-align:center">x or 1</td>
+</tr>
+</tbody>
+</table>
+<h4 id="user-restrictions"><a href="#user-restrictions" class="headerlink" title="user restrictions"></a>user restrictions</h4><p>There are alsoe three types of user restrictions:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">user</th>
+<th style="text-align:left">ls output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">owner</td>
+<td style="text-align:left">-rwx——</td>
+</tr>
+<tr>
+<td style="text-align:center">group</td>
+<td style="text-align:left">—-rwx—</td>
+</tr>
+<tr>
+<td style="text-align:center">other</td>
+<td style="text-align:left">——-rwx</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Folder-Directory-Permissions"><a href="#Folder-Directory-Permissions" class="headerlink" title="Folder/Directory Permissions"></a>Folder/Directory Permissions</h3><p>Directories have directory permissions. The directory permissions restrict different actions than with files or divice nodes.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Permission</th>
+<th style="text-align:left">Action</th>
+<th style="text-align:left">chmod option</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">read</td>
+<td style="text-align:left">view contents i.e: ls comman</td>
+<td style="text-align:left">r or 4</td>
+</tr>
+<tr>
+<td style="text-align:center">write</td>
+<td style="text-align:left">create or remove files from dir</td>
+<td style="text-align:left">w or 2</td>
+</tr>
+<tr>
+<td style="text-align:center">execute</td>
+<td style="text-align:left">cd into directory</td>
+<td style="text-align:left">x or 1</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Permissions-in-Action"><a href="#Permissions-in-Action" class="headerlink" title="Permissions in Action"></a>Permissions in Action</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">local@local-OptiPlex<span class="number">-7020</span>:<span class="regexp">/home$ ls -l </span></span><br><span class="line"><span class="regexp">total 4</span></span><br><span class="line"><span class="regexp">drwxr-xr-x 48 local local 4096 Aug 20 17:01 local</span></span><br><span class="line"><span class="regexp">local@local-OptiPlex-7020:/</span>home$</span><br></pre></td></tr></table></figure>
+<p>Using the example above we have the file ‘/home/local’ which os owned bu the user root and belongs to the root group.<br>What are the permissions from the above ‘home/local’ ls output?<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">drwxr-xr-x</span><br><span class="line"></span><br><span class="line">owner = Read &amp; Write &amp; Execute(rwx)</span><br><span class="line">group = Read &amp; Execute(r-x)</span><br><span class="line">other = Read &amp; Execute(r-x)</span><br></pre></td></tr></table></figure></p>
+<h3 id="Changing-permission"><a href="#Changing-permission" class="headerlink" title="Changing permission"></a>Changing permission</h3><p>The sommand to use when modifying permission is chmod. There are two ways to modify permissions, with numbers or with letters. Using letters. Using letters is easier to understand for most people. When modifying permissions be careful not to create security problems. Some files are configurate to have very restristive permissons to prevent unauthorized access.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">user@host:/home/user# ls -l /etc/shadow</span><br><span class="line">-rw-r-----  <span class="number">1</span> root shadow <span class="number">869</span> <span class="number">2005</span><span class="number">-11</span><span class="number">-08</span> <span class="number">13</span>:<span class="number">16</span> /etc/shadow</span><br><span class="line">user@host:/home/user#</span><br><span class="line"></span><br><span class="line">Permissions:</span><br><span class="line">owner = Read &amp; Write (rw-)</span><br><span class="line">group = Read (r--)</span><br><span class="line">other = None (---)</span><br><span class="line"></span><br><span class="line">Ownership:</span><br><span class="line">owner = root</span><br><span class="line">group = shadow</span><br></pre></td></tr></table></figure>
+<h4 id="chmod-with-Letters"><a href="#chmod-with-Letters" class="headerlink" title="chmod with Letters"></a>chmod with Letters</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Usage: chmod &#123;options&#125; filename</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">user</th>
+<th style="text-align:left">ls output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">u</td>
+<td style="text-align:left">owner</td>
+</tr>
+<tr>
+<td style="text-align:center">g</td>
+<td style="text-align:left">group</td>
+</tr>
+<tr>
+<td style="text-align:center">o</td>
+<td style="text-align:left">other</td>
+</tr>
+<tr>
+<td style="text-align:center">a</td>
+<td style="text-align:left">all(same as ugo)</td>
+</tr>
+<tr>
+<td style="text-align:center">x</td>
+<td style="text-align:left">execute</td>
+</tr>
+<tr>
+<td style="text-align:center">w</td>
+<td style="text-align:left">write</td>
+</tr>
+<tr>
+<td style="text-align:center">r</td>
+<td style="text-align:left">read</td>
+</tr>
+<tr>
+<td style="text-align:center">+</td>
+<td style="text-align:left">add permission</td>
+</tr>
+<tr>
+<td style="text-align:center">_</td>
+<td style="text-align:left">remove permission</td>
+</tr>
+<tr>
+<td style="text-align:center">=</td>
+<td style="text-align:left">set permission</td>
+</tr>
+</tbody>
+</table>
+<p>Here are a few examples of chmod usage with letters.</p>
+<h5 id="First-creatre-some-empty-files"><a href="#First-creatre-some-empty-files" class="headerlink" title="First creatre some empty files"></a>First creatre some empty files</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">local@local-OptiPlex<span class="number">-7020</span>:~$ touch file1 file2 file3 file4</span><br><span class="line">local@local-OptiPlex<span class="number">-7020</span>:~$ ls -l</span><br><span class="line">-rw-rw-r--  <span class="number">1</span> local local      <span class="number">0</span> Aug <span class="number">23</span> <span class="number">11</span>:<span class="number">45</span> file1</span><br><span class="line">-rw-rw-r--  <span class="number">1</span> local local      <span class="number">0</span> Aug <span class="number">23</span> <span class="number">11</span>:<span class="number">45</span> file2</span><br><span class="line">-rw-rw-r--  <span class="number">1</span> local local      <span class="number">0</span> Aug <span class="number">23</span> <span class="number">11</span>:<span class="number">45</span> file3</span><br><span class="line">-rw-rw-r--  <span class="number">1</span> local local      <span class="number">0</span> Aug <span class="number">23</span> <span class="number">11</span>:<span class="number">45</span> file4</span><br></pre></td></tr></table></figure>
+<h5 id="Add-owner-execute-bit"><a href="#Add-owner-execute-bit" class="headerlink" title="Add owner execute bit"></a>Add owner execute bit</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">local@local-OptiPlex<span class="number">-7020</span>:~$ chmod u+x file1</span><br><span class="line">local@local-OptiPlex<span class="number">-7020</span>:~$ ls -l</span><br><span class="line">-rwxrw-r--  <span class="number">1</span> local local    <span class="number">0</span> Aug <span class="number">23</span> <span class="number">11</span>:<span class="number">47</span> file1</span><br></pre></td></tr></table></figure>
+<h5 id="Add-other-write-amp-execute-bit"><a href="#Add-other-write-amp-execute-bit" class="headerlink" title="Add other write &amp; execute bit"></a>Add other write &amp; execute bit</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">local@local-OptiPlex<span class="number">-7020</span>:~$ chmod o+wx file2</span><br><span class="line">local@local-OptiPlex<span class="number">-7020</span>:~$ ls -l</span><br><span class="line">-rw-rw-rwx  <span class="number">1</span> local local    <span class="number">0</span> Aug <span class="number">23</span> <span class="number">11</span>:<span class="number">47</span> file2</span><br></pre></td></tr></table></figure>
+<h5 id="Remove-group-read-bit"><a href="#Remove-group-read-bit" class="headerlink" title="Remove group read bit"></a>Remove group read bit</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">local@local-OptiPlex<span class="number">-7020</span>:~$ chmod g-r file3</span><br><span class="line">local@local-OptiPlex<span class="number">-7020</span>:~$ ls -l</span><br><span class="line">-rw--w-r--  <span class="number">1</span> local local    <span class="number">0</span> Aug <span class="number">23</span> <span class="number">11</span>:<span class="number">47</span> file3</span><br></pre></td></tr></table></figure>
+<h5 id="Add-read-write-and-execute-to-everyone"><a href="#Add-read-write-and-execute-to-everyone" class="headerlink" title="Add read, write and execute to everyone"></a>Add read, write and execute to everyone</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">local@local-OptiPlex<span class="number">-7020</span>:~$ chmod ugo+rwx file4</span><br><span class="line">local@local-OptiPlex<span class="number">-7020</span>:~$ ls -l</span><br><span class="line">-rwxrwxrwx  <span class="number">1</span> local local    <span class="number">0</span> Aug <span class="number">23</span> <span class="number">11</span>:<span class="number">47</span> file4</span><br></pre></td></tr></table></figure>
+<h4 id="chmod-with-number"><a href="#chmod-with-number" class="headerlink" title="chmod with number"></a>chmod with number</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Usage: chmod &#123;options&#125; filename</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Options</th>
+<th style="text-align:left">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">#–</td>
+<td style="text-align:left">owner</td>
+</tr>
+<tr>
+<td style="text-align:center">-#-</td>
+<td style="text-align:left">group</td>
+</tr>
+<tr>
+<td style="text-align:center">–#</td>
+<td style="text-align:left">other</td>
+</tr>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:left">execute</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:left">write</td>
+</tr>
+<tr>
+<td style="text-align:center">4</td>
+<td style="text-align:left">read</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Owner, Group and Other is represented by three numbers. To get the value for the options determine the type of access needed for the file then add.</p>
+</blockquote>
+<p>For example if you want a file that has -rw-rw-rwx permissions you will use the following:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Owner</th>
+<th style="text-align:center">Group</th>
+<th style="text-align:center">Other</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">read &amp; write</td>
+<td style="text-align:center">read &amp; write</td>
+<td style="text-align:center">read &amp; write &amp; execute</td>
+</tr>
+<tr>
+<td style="text-align:center">4+2=6</td>
+<td style="text-align:center">4+2=6</td>
+<td style="text-align:center">4+2+1=7</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">user@host:<span class="regexp">/home/</span>local$ chmod <span class="number">667</span> filename</span><br></pre></td></tr></table></figure>
+<p>Another example if you want a file that has –w-r-x–x permissions you will use the following:<br>| Owner | Group  | Other |<br>| :—-: | :—: |   :—:     |<br>|  write      |  read &amp; execute   |   execute   |<br>|  2     |  4+1=5   |  1    |</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">user@host:<span class="regexp">/home/</span>local$ chmod <span class="number">251</span> filename</span><br></pre></td></tr></table></figure>
+<p>Here are a few examples of chmod usage with numbers.</p>
+<h5 id="First-create-some-empty-files"><a href="#First-create-some-empty-files" class="headerlink" title="First create some empty files"></a>First create some empty files</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">local@local-OptiPlex<span class="number">-7020</span>:~$ touch file1 file2 file3 file4</span><br><span class="line">local@local-OptiPlex<span class="number">-7020</span>:~$ ls -l</span><br><span class="line">-rw-rw-r--  <span class="number">1</span> local local    <span class="number">0</span> Aug <span class="number">23</span> <span class="number">12</span>:<span class="number">35</span> file1</span><br><span class="line">-rw-rw-r--  <span class="number">1</span> local local    <span class="number">0</span> Aug <span class="number">23</span> <span class="number">12</span>:<span class="number">35</span> file2</span><br><span class="line">-rw-rw-r--  <span class="number">1</span> local local    <span class="number">0</span> Aug <span class="number">23</span> <span class="number">12</span>:<span class="number">35</span> file3</span><br><span class="line">-rw-rw-r--  <span class="number">1</span> local local    <span class="number">0</span> Aug <span class="number">23</span> <span class="number">12</span>:<span class="number">35</span> file4</span><br></pre></td></tr></table></figure>
+<h5 id="Add-onwer-execute-bit"><a href="#Add-onwer-execute-bit" class="headerlink" title="Add onwer execute bit"></a>Add onwer execute bit</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">local@local-OptiPlex<span class="number">-7020</span>:~$ chmod <span class="number">744</span> file1</span><br><span class="line">local@local-OptiPlex<span class="number">-7020</span>:~$ ls -l</span><br><span class="line">-rwxr--r--  <span class="number">1</span> local local    <span class="number">0</span> Aug <span class="number">23</span> <span class="number">12</span>:<span class="number">35</span> file1</span><br></pre></td></tr></table></figure>
+<h5 id="Add-other-write-amp-execute-bit-1"><a href="#Add-other-write-amp-execute-bit-1" class="headerlink" title="Add other write &amp; execute bit"></a>Add other write &amp; execute bit</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">local@local-OptiPlex<span class="number">-7020</span>:~$ chmod <span class="number">647</span> file2</span><br><span class="line">local@local-OptiPlex<span class="number">-7020</span>:~$ ls -l</span><br><span class="line">-rw-r--rwx  <span class="number">1</span> local local    <span class="number">0</span> Aug <span class="number">23</span> <span class="number">12</span>:<span class="number">35</span> file2</span><br></pre></td></tr></table></figure>
+<h5 id="Remove-group-read-bit-1"><a href="#Remove-group-read-bit-1" class="headerlink" title="Remove group read bit"></a>Remove group read bit</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">local@local-OptiPlex<span class="number">-7020</span>:~$ chmod <span class="number">604</span> file3</span><br><span class="line">local@local-OptiPlex<span class="number">-7020</span>:~$ ls -l</span><br><span class="line">-rw----r--  <span class="number">1</span> local local    <span class="number">0</span> Aug <span class="number">23</span> <span class="number">12</span>:<span class="number">35</span> file3</span><br></pre></td></tr></table></figure>
+<h5 id="Add-read-amp-write-amp-execute-to-everyone"><a href="#Add-read-amp-write-amp-execute-to-everyone" class="headerlink" title="Add read &amp; write &amp; execute to everyone"></a>Add read &amp; write &amp; execute to everyone</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">local@local-OptiPlex<span class="number">-7020</span>:~$ chmod <span class="number">777</span> file4</span><br><span class="line">local@local-OptiPlex<span class="number">-7020</span>:~$ ls -l</span><br><span class="line">-rwxrwxrwx  <span class="number">1</span> local local    <span class="number">0</span> Aug <span class="number">23</span> <span class="number">12</span>:<span class="number">35</span> file4</span><br></pre></td></tr></table></figure>
+<h4 id="chmod-with-sudo"><a href="#chmod-with-sudo" class="headerlink" title="chmod with sudo"></a>chmod with sudo</h4><p>Changing permissions on files that do not have ownership that changeing permission the wrong way on the wrong files can quickly mess up your system a great deal! Please be careful when using the <code>sudo</code>.</p>
+<h3 id="Recursive-Permission-Changes"><a href="#Recursive-Permission-Changes" class="headerlink" title="Recursive Permission Changes"></a>Recursive Permission Changes</h3><p>To change the permissions of multiple files and directories with one command. Please note the warning in the chmod with sudo section and the Warning with Recursive chmod section.</p>
+<h4 id="Recursive-chmod-with-R-and-sudo"><a href="#Recursive-chmod-with-R-and-sudo" class="headerlink" title="Recursive chmod with -R and sudo"></a>Recursive chmod with -R and sudo</h4><p>To change all the permissions of each file and folder under a specified directory at once, use sudo chmod with -R</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">user@host:<span class="regexp">/home/</span>local$ sudo chmod <span class="number">777</span> -R /path/to/someDirectory</span><br><span class="line">user@host:<span class="regexp">/home/</span>local$ ls -l</span><br><span class="line">total <span class="number">3</span></span><br><span class="line">-rwxrwxrwx  <span class="number">1</span> user user <span class="number">0</span> Nov <span class="number">19</span> <span class="number">20</span>:<span class="number">13</span> file1</span><br><span class="line">drwxrwxrwx  <span class="number">2</span> user user <span class="number">4096</span> Nov <span class="number">19</span> <span class="number">20</span>:<span class="number">13</span> folder</span><br><span class="line">-rwxrwxrwx  <span class="number">1</span> user user <span class="number">0</span> Nov <span class="number">19</span> <span class="number">20</span>:<span class="number">13</span> file2</span><br></pre></td></tr></table></figure>
+<h4 id="Recursive-chmod-using-find-pipemill-and-sudo"><a href="#Recursive-chmod-using-find-pipemill-and-sudo" class="headerlink" title="Recursive chmod using find, pipemill, and sudo"></a>Recursive chmod using find, pipemill, and sudo</h4><p>To assign reasonably secure permissions to files and folders/directories, it’s common to give files a permission of 644, and directories a 755 permission, since chmod -R assigns to both. Use sudo, the find command, and a pipemill to chmod as in the following examples.</p>
+<p>To change permission of only files under a specified directory.<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">user@host:<span class="regexp">/home/</span>local$ sudo find /path/to/someDirectory -type f -print0 | xargs <span class="number">-0</span> sudo chmod <span class="number">644</span></span><br><span class="line">user@host:<span class="regexp">/home/</span>local$ ls -l</span><br><span class="line">total <span class="number">3</span></span><br><span class="line">-rw-r--r--  <span class="number">1</span> user user <span class="number">0</span> Nov <span class="number">19</span> <span class="number">20</span>:<span class="number">13</span> file1</span><br><span class="line">drwxrwxrwx  <span class="number">2</span> user user <span class="number">4096</span> Nov <span class="number">19</span> <span class="number">20</span>:<span class="number">13</span> folder</span><br><span class="line">-rw-r--r--  <span class="number">1</span> user user <span class="number">0</span> Nov <span class="number">19</span> <span class="number">20</span>:<span class="number">13</span> file2</span><br></pre></td></tr></table></figure></p>
+<p>To change permission of only directories under a specified directory (including that directory):<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">user@host:<span class="regexp">/home/</span>local$ sudo find /path/to/someDirectory -type d -print0 | xargs <span class="number">-0</span> sudo chmod <span class="number">755</span> </span><br><span class="line">user@host:<span class="regexp">/home/</span>local$ ls -l</span><br><span class="line">total <span class="number">3</span></span><br><span class="line">-rw-r--r--  <span class="number">1</span> user user <span class="number">0</span> Nov <span class="number">19</span> <span class="number">20</span>:<span class="number">13</span> file1</span><br><span class="line">drwxr-xr-x  <span class="number">2</span> user user <span class="number">4096</span> Nov <span class="number">19</span> <span class="number">20</span>:<span class="number">13</span> folder</span><br><span class="line">-rw-r--r--  <span class="number">1</span> user user <span class="number">0</span> Nov <span class="number">19</span> <span class="number">20</span>:<span class="number">13</span> file2</span><br></pre></td></tr></table></figure></p>
+<h3 id="Warning-with-Recursive-chmod"><a href="#Warning-with-Recursive-chmod" class="headerlink" title="Warning with Recursive chmod"></a>Warning with Recursive chmod</h3><p>WARNING: Although it’s been said, it’s worth mentioning in context of a gotcha typo. Please note, Recursively deleting or chown-ing files are extremely dangerous. You will not be the first, nor the last, person to add one too many spaces into the command. This example will hose your system:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">user@host:<span class="regexp">/home/</span>local$ sudo chmod -R / home/john/Desktop/tempfiles</span><br></pre></td></tr></table></figure>
+<h3 id="Changing-the-File-Owner-and-Group"><a href="#Changing-the-File-Owner-and-Group" class="headerlink" title="Changing the File Owner and Group"></a>Changing the File Owner and Group</h3><p>A file’s owner can be changed using the chown command. For example, to change the foobar file’s owner to tux: </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">user@host:<span class="regexp">/home/</span>local$ sudo chown tux foobar</span><br></pre></td></tr></table></figure>
+<p>o change the foobar file’s group to penguins, you could use either chgrp or chown with special syntax:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">user@host:<span class="regexp">/home/</span>local$ sudo chgrp penguins foobar</span><br><span class="line"></span><br><span class="line">user@host:<span class="regexp">/home/</span>local$ sudo chown :penguins foobar</span><br></pre></td></tr></table></figure></p>
+<p>Finally, to change the foobar file’s owner to tux and the group to penguins with a single command, the syntax would be:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">user@host:<span class="regexp">/home/</span>local$ sudo chown tux:penguins foobar</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="https://github.com/lydiali9/Blog/blob/master/lydiali9.github.com/images/wechatpay1.png?raw=true" alt="Lynn Li WeChat Pay">
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="https://github.com/lydiali9/Blog/blob/master/lydiali9.github.com/images/alipay1.png?raw=true" alt="Lynn Li Alipay">
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/chmod/" rel="tag"># chmod</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/22/axios/" rel="next" title="axios">
+                <i class="fa fa-chevron-left"></i> axios
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/23/linux-command/" rel="prev" title="linux command">
+                linux command <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="Lynn Li">
+          <p class="site-author-name" itemprop="name">Lynn Li</p>
+           
+              <p class="site-description motion-element" itemprop="description">只怕把自己活成自己理想中的男生</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">68</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/lydiali9" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Quick-Start"><span class="nav-number">1.</span> <span class="nav-text">Quick Start</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Access-restrictions"><span class="nav-number">1.1.</span> <span class="nav-text">Access restrictions</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#user-restrictions"><span class="nav-number">1.2.</span> <span class="nav-text">user restrictions</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Folder-Directory-Permissions"><span class="nav-number">2.</span> <span class="nav-text">Folder/Directory Permissions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Permissions-in-Action"><span class="nav-number">3.</span> <span class="nav-text">Permissions in Action</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Changing-permission"><span class="nav-number">4.</span> <span class="nav-text">Changing permission</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#chmod-with-Letters"><span class="nav-number">4.1.</span> <span class="nav-text">chmod with Letters</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#First-creatre-some-empty-files"><span class="nav-number">4.1.1.</span> <span class="nav-text">First creatre some empty files</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Add-owner-execute-bit"><span class="nav-number">4.1.2.</span> <span class="nav-text">Add owner execute bit</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Add-other-write-amp-execute-bit"><span class="nav-number">4.1.3.</span> <span class="nav-text">Add other write &amp; execute bit</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Remove-group-read-bit"><span class="nav-number">4.1.4.</span> <span class="nav-text">Remove group read bit</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Add-read-write-and-execute-to-everyone"><span class="nav-number">4.1.5.</span> <span class="nav-text">Add read, write and execute to everyone</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#chmod-with-number"><span class="nav-number">4.2.</span> <span class="nav-text">chmod with number</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#First-create-some-empty-files"><span class="nav-number">4.2.1.</span> <span class="nav-text">First create some empty files</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Add-onwer-execute-bit"><span class="nav-number">4.2.2.</span> <span class="nav-text">Add onwer execute bit</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Add-other-write-amp-execute-bit-1"><span class="nav-number">4.2.3.</span> <span class="nav-text">Add other write &amp; execute bit</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Remove-group-read-bit-1"><span class="nav-number">4.2.4.</span> <span class="nav-text">Remove group read bit</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Add-read-amp-write-amp-execute-to-everyone"><span class="nav-number">4.2.5.</span> <span class="nav-text">Add read &amp; write &amp; execute to everyone</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#chmod-with-sudo"><span class="nav-number">4.3.</span> <span class="nav-text">chmod with sudo</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Recursive-Permission-Changes"><span class="nav-number">5.</span> <span class="nav-text">Recursive Permission Changes</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Recursive-chmod-with-R-and-sudo"><span class="nav-number">5.1.</span> <span class="nav-text">Recursive chmod with -R and sudo</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Recursive-chmod-using-find-pipemill-and-sudo"><span class="nav-number">5.2.</span> <span class="nav-text">Recursive chmod using find, pipemill, and sudo</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Warning-with-Recursive-chmod"><span class="nav-number">6.</span> <span class="nav-text">Warning with Recursive chmod</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Changing-the-File-Owner-and-Group"><span class="nav-number">7.</span> <span class="nav-text">Changing the File Owner and Group</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2013 - 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lynn Li</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://lynnli.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://github.com/lydiali9/2018/08/23/file-permission-for-ubuntu/';
+          this.page.identifier = '2018/08/23/file-permission-for-ubuntu/';
+          this.page.title = 'file permission for ubuntu';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://lynnli.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
