@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.lug.ustc.edu.cn/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="slot,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1">
+
+
+
+
+
+
+<meta name="description" content="一直在ElementUI的table中使用插槽技术，但是并没有真正的理解到底什么是插槽？只知道这是父组建往子组建中派发内容； 关于slot是这样的，除非子组建模板中包含至少一个插口，否则父组建的内容将会被丢弃。当子组建模板只有一个没有属性的slot时，父组建整个内容片段将插入到slot所在的DOM位置，并替换掉slot标签本身。 最初在标签中的任何内容都被视为备用内容。备用内容在子组建的作用于内编">
+<meta name="keywords" content="slot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Slot插槽技术">
+<meta property="og:url" content="https://github.com/lydiali9/2019/02/16/Slot插槽技术/index.html">
+<meta property="og:site_name" content="蜗小懒">
+<meta property="og:description" content="一直在ElementUI的table中使用插槽技术，但是并没有真正的理解到底什么是插槽？只知道这是父组建往子组建中派发内容； 关于slot是这样的，除非子组建模板中包含至少一个插口，否则父组建的内容将会被丢弃。当子组建模板只有一个没有属性的slot时，父组建整个内容片段将插入到slot所在的DOM位置，并替换掉slot标签本身。 最初在标签中的任何内容都被视为备用内容。备用内容在子组建的作用于内编">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-08-31T09:07:31.114Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Slot插槽技术">
+<meta name="twitter:description" content="一直在ElementUI的table中使用插槽技术，但是并没有真正的理解到底什么是插槽？只知道这是父组建往子组建中派发内容； 关于slot是这样的，除非子组建模板中包含至少一个插口，否则父组建的内容将会被丢弃。当子组建模板只有一个没有属性的slot时，父组建整个内容片段将插入到slot所在的DOM位置，并替换掉slot标签本身。 最初在标签中的任何内容都被视为备用内容。备用内容在子组建的作用于内编">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://github.com/lydiali9/2019/02/16/Slot插槽技术/">
+
+
+
+
+
+  <title>Slot插槽技术 | 蜗小懒</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">蜗小懒</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Li Y Lynn</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://github.com/lydiali9/2019/02/16/Slot插槽技术/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lynn Li">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="蜗小懒">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Slot插槽技术</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-16T12:22:49+08:00">
+                2019-02-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/02/16/Slot插槽技术/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/02/16/Slot插槽技术/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>一直在ElementUI的table中使用插槽技术，但是并没有真正的理解到底什么是插槽？只知道这是父组建往子组建中派发内容；</p>
+<p>关于slot是这样的，除非子组建模板中包含至少一个插口，否则父组建的内容将会被丢弃。当子组建模板只有一个没有属性的slot时，父组建整个内容片段将插入到slot所在的DOM位置，并替换掉slot标签本身。</p>
+<p>最初在标签中的任何内容都被视为备用内容。备用内容在子组建的作用于内编译，并且只有在宿主元素为空，且没有要插入的内容的时候才显示备用内容；</p>
+<h3 id="单个Slot"><a href="#单个Slot" class="headerlink" title="单个Slot"></a>单个Slot</h3><p>在子组建内使用特殊的元素就可以为这个子组建添加一个slot（插槽），在父组建模板里，插入在子组建标签内的所有内容将替代子组建的标签及它的内容；</p>
+<p> For example:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// 父组建的内容</span><br><span class="line">&lt;div id=<span class="string">"app"</span>&gt;</span><br><span class="line">    &lt;child-component&gt;</span><br><span class="line">        &lt;p&gt;分发的内容&lt;/p&gt;</span><br><span class="line">        &lt;p&gt;更多分发的内容&lt;/p&gt;</span><br><span class="line">    &lt;/child-component&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<p>// 子组建的内容<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">    Vue.component(<span class="string">'child-component'</span>, &#123;</span><br><span class="line">        template: <span class="string">'</span></span><br><span class="line"><span class="string">            &lt;div&gt;</span></span><br><span class="line"><span class="string">                &lt;slot&gt;</span></span><br><span class="line"><span class="string">                    &lt;p&gt;如果父组建没有插入内容，我将作为默认出现&lt;/p&gt;</span></span><br><span class="line"><span class="string">                &lt;/slot&gt;</span></span><br><span class="line"><span class="string">            &lt;/div&gt;'</span></span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    var app = new Vue(&#123;</span><br><span class="line">        el: <span class="string">'#app'</span></span><br><span class="line">    &#125;);</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
+<p>子组建在<code>child-component</code>的模版内定义一个元素，并且用一个作为默认的内容，在父组建中没有使用slot时，会渲染这段默认的文本；如果写了slot，那就会替换整个，所以上述代码的渲染结果如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=<span class="string">"app"</span>&gt;</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">        &lt;p&gt;分发的内容&lt;/p&gt;</span><br><span class="line">        &lt;p&gt;更多分发的内容&lt;/p&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意： 子组建内的备用内容，它的作用域是子组建本身；</p>
+</blockquote>
+<h3 id="具名slot"><a href="#具名slot" class="headerlink" title="具名slot"></a>具名slot</h3><blockquote>
+<p>给元素制定一个name后可以分发多个内容，具名slot可以与单个slot共存，例如下面的示例：</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// 父组建的内容</span><br><span class="line">&lt;div id=<span class="string">"app"</span>&gt;</span><br><span class="line">    &lt;child-component&gt;</span><br><span class="line">        &lt;h2 slot=<span class="string">"header"</span>&gt;标题&lt;/h2&gt;</span><br><span class="line">        &lt;p&gt;正文内容&lt;/p&gt;</span><br><span class="line">        &lt;p&gt;更多正文内容&lt;/p&gt;</span><br><span class="line">        &lt;div slot=<span class="string">"footer"</span>&gt;底部内容&lt;/div&gt;</span><br><span class="line">    &lt;/child-component&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">// 子组建的内容</span><br><span class="line">Vue.component(<span class="string">'child-component'</span>, &#123;</span><br><span class="line">    template: <span class="string">'</span></span><br><span class="line"><span class="string">            &lt;div class="component"&gt;</span></span><br><span class="line"><span class="string">                &lt;div class="header"&gt;</span></span><br><span class="line"><span class="string">                    &lt;slot name="header"&gt;&lt;/slot&gt;</span></span><br><span class="line"><span class="string">                &lt;/div&gt;</span></span><br><span class="line"><span class="string">                &lt;div class="main"&gt;</span></span><br><span class="line"><span class="string">                    &lt;slot&gt;&lt;/slot&gt;</span></span><br><span class="line"><span class="string">                &lt;/div&gt;</span></span><br><span class="line"><span class="string">                &lt;div class="footer"&gt;</span></span><br><span class="line"><span class="string">                    &lt;slot name="footer"&gt;&lt;/slot&gt;</span></span><br><span class="line"><span class="string">                &lt;/div&gt;</span></span><br><span class="line"><span class="string">            &lt;/div&gt;</span></span><br><span class="line"><span class="string">    '</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">var app = new Vue(&#123;</span><br><span class="line">    el: <span class="string">'#app'</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>子组建内声明了三个元素，其中在内的没有使用name特性，它将作为默认slot出现，父组建没有使用slot特性的元素与内容都将出现在这里。如果没有制定默认的匿名slot，父组建内多余视为内容片段都将被抛弃。</p>
+<p>上述例子最终渲染结果如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=<span class="string">"app"</span>&gt;</span><br><span class="line">    &lt;div class=<span class="string">"component"</span>&gt;</span><br><span class="line">        &lt;div class=<span class="string">"header"</span>&gt;</span><br><span class="line">            &lt;h2&gt;标题&lt;/h2&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">        &lt;div class=<span class="string">"main"</span>&gt;</span><br><span class="line">            &lt;p&gt;正文内容&lt;/p&gt;</span><br><span class="line">            &lt;p&gt;更多的正文内容/p&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">        &lt;div class=<span class="string">"footer"</span>&gt;</span><br><span class="line">            &lt;div&gt;底部信息&lt;/div&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure></p>
+<p>在组合使用组建时，内容分发API至关重要；</p>
+<p>More info：</p>
+<ul>
+<li><a href="https://cn.vuejs.org/v2/guide/components-slots.html" target="_blank" rel="noopener">Slot</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="https://github.com/lydiali9/Blog/blob/master/lydiali9.github.com/images/wechatpay1.png?raw=true" alt="Lynn Li WeChat Pay">
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="https://github.com/lydiali9/Blog/blob/master/lydiali9.github.com/images/alipay1.png?raw=true" alt="Lynn Li Alipay">
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/slot/" rel="tag"># slot</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/20/在安卓设备上使用Chrome远程调试功能/" rel="next" title="在安卓设备上使用Chrome远程调试功能">
+                <i class="fa fa-chevron-left"></i> 在安卓设备上使用Chrome远程调试功能
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/31/vuex/" rel="prev" title="vuex">
+                vuex <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="Lynn Li">
+          <p class="site-author-name" itemprop="name">Lynn Li</p>
+           
+              <p class="site-description motion-element" itemprop="description">只怕把自己活成自己理想中的男生</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">40</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">72</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/lydiali9" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#单个Slot"><span class="nav-number">1.</span> <span class="nav-text">单个Slot</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#具名slot"><span class="nav-number">2.</span> <span class="nav-text">具名slot</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2013 - 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lynn Li</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://lynnli.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://github.com/lydiali9/2019/02/16/Slot插槽技术/';
+          this.page.identifier = '2019/02/16/Slot插槽技术/';
+          this.page.title = 'Slot插槽技术';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://lynnli.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
