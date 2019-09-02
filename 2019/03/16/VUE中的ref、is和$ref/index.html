@@ -100,18 +100,18 @@
 
 
 
-<meta name="description" content="只怕把自己活成自己理想中的男生">
+<meta name="description" content="最近在VUE项目中，需要实现一个Tab页的功能，点击不同的Tab展示不同的页面，子页面中再次点击上下或者左右箭头又可以翻页，而且很多的页面除了数据布局也一致； 看到如上的功能想必正在阅读这篇文章的你心里已经有了解决方案吧！那么我也分享下我的解决方案，如果有需要改进的地方或者更好的实现方案，欢迎随时与我探讨！ 首先，需要组建话布局，将公共的页面封装成组建；与此同时，这里重点讲解一下封装组建所用到的重">
 <meta name="keywords" content="vue,ref,$ref">
 <meta property="og:type" content="article">
 <meta property="og:title" content="VUE中的ref、is和$ref">
 <meta property="og:url" content="https://github.com/lydiali9/2019/03/16/VUE中的ref、is和$ref/index.html">
 <meta property="og:site_name" content="蜗小懒">
-<meta property="og:description" content="只怕把自己活成自己理想中的男生">
+<meta property="og:description" content="最近在VUE项目中，需要实现一个Tab页的功能，点击不同的Tab展示不同的页面，子页面中再次点击上下或者左右箭头又可以翻页，而且很多的页面除了数据布局也一致； 看到如上的功能想必正在阅读这篇文章的你心里已经有了解决方案吧！那么我也分享下我的解决方案，如果有需要改进的地方或者更好的实现方案，欢迎随时与我探讨！ 首先，需要组建话布局，将公共的页面封装成组建；与此同时，这里重点讲解一下封装组建所用到的重">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-08-31T09:18:50.122Z">
+<meta property="og:updated_time" content="2019-09-02T01:48:20.811Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="VUE中的ref、is和$ref">
-<meta name="twitter:description" content="只怕把自己活成自己理想中的男生">
+<meta name="twitter:description" content="最近在VUE项目中，需要实现一个Tab页的功能，点击不同的Tab展示不同的页面，子页面中再次点击上下或者左右箭头又可以翻页，而且很多的页面除了数据布局也一致； 看到如上的功能想必正在阅读这篇文章的你心里已经有了解决方案吧！那么我也分享下我的解决方案，如果有需要改进的地方或者更好的实现方案，欢迎随时与我探讨！ 首先，需要组建话布局，将公共的页面封装成组建；与此同时，这里重点讲解一下封装组建所用到的重">
 
 
 
@@ -358,7 +358,17 @@
       
 
       
-        
+        <p>最近在VUE项目中，需要实现一个Tab页的功能，点击不同的Tab展示不同的页面，子页面中再次点击上下或者左右箭头又可以翻页，而且很多的页面除了数据布局也一致；</p>
+<p>看到如上的功能想必正在阅读这篇文章的你心里已经有了解决方案吧！那么我也分享下我的解决方案，如果有需要改进的地方或者更好的实现方案，欢迎随时与我探讨！</p>
+<p>首先，需要组建话布局，将公共的页面封装成组建；与此同时，这里重点讲解一下封装组建所用到的重要的属性和对象<code>ref和$ref</code></p>
+<h3 id="ref"><a href="#ref" class="headerlink" title="ref"></a>ref</h3><p><code>ref</code>被用来给元素或子组建注册引用信息。引用信息将会注册在父组件的<code>$refs</code>对象上。如果在普通的DOM元素上使用，引用指向的就是DOM元素；如果用在子组件上，引用就指向组件实例；</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- `vm.<span class="variable">$refs</span>.p` will be the DOM node --&gt;</span><br><span class="line">&lt;p ref=<span class="string">'p'</span>&gt;hello&lt;/p&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- `vm.<span class="variable">$refs</span>.child` will be the child component instance --&gt;</span><br><span class="line">&lt;child-component ref=<span class="string">"child"</span>&gt;&lt;/child-component&gt;</span><br></pre></td></tr></table></figure>
+<p>当<code>v-for</code>用于元素或者组件的时候，引用信息将是包含DOM节点或组件实例的数组。</p>
+<p>关于<code>ref</code>注册事件的重要说明： 因为ref本身是作为渲染结果被创建的，在初试渲染的时候你不能访问它们，它们还不存在! <code>$refs</code>也不是响应式的，因此不要在试图用它在模板中做数据绑定。</p>
+<h3 id="is"><a href="#is" class="headerlink" title="is"></a>is</h3><p>用于动态组件且基于DOM内模版的限制来工作；</p>
+<p>For example<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 当`currentView`改变时，组件也跟着改变 --&gt;</span><br><span class="line">&lt;component v-bind:is=<span class="string">"currentView"</span>&gt;&lt;/component&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- 这样做是有必要的，因为`&lt;my-row&gt;`放在一个`&lt;table&gt;`内可能无效且被放置到外面 --&gt;</span><br><span class="line">&lt;table&gt;</span><br><span class="line">    &lt;tr is=<span class="string">"my-row"</span>&gt;&lt;/tr&gt;</span><br><span class="line">&lt;/table&gt;</span><br></pre></td></tr></table></figure></p>
+<h3 id="动态组件"><a href="#动态组件" class="headerlink" title="动态组件"></a>动态组件</h3><p>有时候，在不同组件之间进行动态切换时非常有用的，比如：在一个对标签的界面里： A B C点击不同的字母，下面显示不同的界面，上述内容可以通过Vue的<component>元素加一个特殊的<code>is</code>特性来实现：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;&gt;</span><br></pre></td></tr></table></figure></component></p>
+
       
     </div>
 
@@ -492,8 +502,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="Lynn Li">
           <p class="site-author-name" itemprop="name">Lynn Li</p>
@@ -564,6 +583,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#ref"><span class="nav-number">1.</span> <span class="nav-text">ref</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#is"><span class="nav-number">2.</span> <span class="nav-text">is</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#动态组件"><span class="nav-number">3.</span> <span class="nav-text">动态组件</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
