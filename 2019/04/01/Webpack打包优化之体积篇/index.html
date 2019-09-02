@@ -100,17 +100,17 @@
 
 
 
-<meta name="description" content="最近在项目开发中，需要将VUE前端">
+<meta name="description" content="最近在项目开发中，需要将VUE前端代码打包上传至静态资源服务器上，结果静态资源服务器限制上传的资源每个文件大小不能大于1MB；然而在日常的项目开发中，我们会遇到各种第三方插件来提高效率，但随之带来的问题就是打包后的vendor.js文件体积过大，导致加载时空白页事件过长，而且首屏加载慢，给用户的体验太差。为此我们需要减小vendor.js文件的体积； *Webpack教程 定位webpack打包慢">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Webpack打包优化之体积篇">
 <meta property="og:url" content="https://github.com/lydiali9/2019/04/01/Webpack打包优化之体积篇/index.html">
 <meta property="og:site_name" content="蜗小懒">
-<meta property="og:description" content="最近在项目开发中，需要将VUE前端">
+<meta property="og:description" content="最近在项目开发中，需要将VUE前端代码打包上传至静态资源服务器上，结果静态资源服务器限制上传的资源每个文件大小不能大于1MB；然而在日常的项目开发中，我们会遇到各种第三方插件来提高效率，但随之带来的问题就是打包后的vendor.js文件体积过大，导致加载时空白页事件过长，而且首屏加载慢，给用户的体验太差。为此我们需要减小vendor.js文件的体积； *Webpack教程 定位webpack打包慢">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-02T10:18:10.187Z">
+<meta property="og:updated_time" content="2019-09-02T10:37:59.954Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Webpack打包优化之体积篇">
-<meta name="twitter:description" content="最近在项目开发中，需要将VUE前端">
+<meta name="twitter:description" content="最近在项目开发中，需要将VUE前端代码打包上传至静态资源服务器上，结果静态资源服务器限制上传的资源每个文件大小不能大于1MB；然而在日常的项目开发中，我们会遇到各种第三方插件来提高效率，但随之带来的问题就是打包后的vendor.js文件体积过大，导致加载时空白页事件过长，而且首屏加载慢，给用户的体验太差。为此我们需要减小vendor.js文件的体积； *Webpack教程 定位webpack打包慢">
 
 
 
@@ -357,7 +357,14 @@
       
 
       
-        <p>最近在项目开发中，需要将VUE前端</p>
+        <p>最近在项目开发中，需要将VUE前端代码打包上传至静态资源服务器上，结果静态资源服务器限制上传的资源每个文件大小不能大于1MB；然而在日常的项目开发中，我们会遇到各种第三方插件来提高效率，但随之带来的问题就是打包后的vendor.js文件体积过大，导致加载时空白页事件过长，而且首屏加载慢，给用户的体验太差。为此我们需要减小vendor.js文件的体积；</p>
+<p>*<a href="https://webpack.js.org/concepts/" target="_blank" rel="noopener">Webpack教程</a></p>
+<h4 id="定位webpack打包慢并且文件大的原因"><a href="#定位webpack打包慢并且文件大的原因" class="headerlink" title="定位webpack打包慢并且文件大的原因"></a>定位webpack打包慢并且文件大的原因</h4><p>*<a href="webpack-bundle-analyzer">webpack-bundle-analyzer</a></p>
+<h3 id="externals优化项目"><a href="#externals优化项目" class="headerlink" title="externals优化项目"></a>externals优化项目</h3><p>vendor.js文件过大，这时候用webpack提供的externals属性可以解决以上的问题，像vue.js、vuex.js、vue-router.js这些第三方，基本不会变的；如果将它们独立出来单独加载就能利用浏览器的缓存机制，不用每次都重新加载这些第三方库文件，并且大大减小了vendor.js文件的大小；</p>
+<ol>
+<li>添加配置如下</li>
+</ol>
+<p>webpack的外部扩展（externals）可以有效的解决；externals配置选项提供了从输出的bundle中排除依赖的方法；相反，所创建的bundle依赖于那些存在用户环境中的依赖。防止将某些import的包打包到bundle中，而是在运行的时候再去从外部获取这些扩展依赖；<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># build/webpack.base.conf.js</span></span><br><span class="line"></span><br><span class="line">var path = require(<span class="string">'path'</span>)</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -482,8 +489,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="Lynn Li">
           <p class="site-author-name" itemprop="name">Lynn Li</p>
@@ -554,6 +570,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#定位webpack打包慢并且文件大的原因"><span class="nav-number">1.</span> <span class="nav-text">定位webpack打包慢并且文件大的原因</span></a></li></ol><li class="nav-item nav-level-3"><a class="nav-link" href="#externals优化项目"><span class="nav-number"></span> <span class="nav-text">externals优化项目</span></a></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
